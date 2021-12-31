@@ -43,36 +43,8 @@ bool inputCheck(std::string Input) {
 }
 
 
-int main() {
-
-    setlocale(LC_ALL, "");
-
-    //РАССТАНОВКА КОРАБЛЕЙ ИГРОКА
-
-
-    // Создаем пустое поле битвы
-    std::string field[13][12] = {
-            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
-            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-    };
-    /*int input_story[4][2]{
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-    }; */
-
+//Поле игрока
+std::string userField(std::string field[13][12]) {
 
     //Корабли
     int shipsNum = 20;
@@ -87,12 +59,11 @@ int main() {
     //Координаты
     int x_coordinate = 0;
     int y_coordinate = 0;
-    int x_story[20] = { 10 };
-    int y_story[20] = { 10 };
+    int x_story[20] = { 0 };
+    int y_story[20] = { 0 };
 
 
     //Разрешаюищие переменные
-    //bool invalidInput = 0;
     bool ignore_results = 0;
     bool check_coordinate = 0;
     bool set_check = 0;
@@ -103,14 +74,6 @@ int main() {
     std::string playerInput;
     std::string block = "";
     std::string display = "-----------";
-
-
-    for (int i = 0; i <= 19; i++) {
-        y_story[i] += 0;
-    }
-    for (int i = 0; i <= 19; i++) {
-        x_story[i] += 0;
-    }
 
 
     while (shipsNum > -1) {
@@ -140,22 +103,8 @@ int main() {
         std::cin >> playerInput;
         std::transform(playerInput.begin(), playerInput.end(), playerInput.begin(), ::toupper);
 
-        /*if (playerInput == "DEL") {
-            int y_del = input_story[decksNum-1][0];
-            int x_del = input_story[decksNum-1][1];
-            field[y_del][x_del] = " |";
-            shipsNum++;
-            y_story[20 - shipsNum] = 0;
-            x_story[20 - shipsNum] = 0;
-            decksNum--;
-            input_story[decksNum][0] = 0;
-            input_story[decksNum][1] = 0;
-            playerInput = " ";
-        } **/
-
 
         if (playerInput == "START") {
-            botActive = 1;
             break;
         }
 
@@ -291,125 +240,147 @@ int main() {
         }
 
     }
+    return field[12][11];
+}
 
 
-    // КОД ДЛЯ РАССТАНОВОК КОРАБЛЯ БОТА
-    if (botActive) {
-        // Создаем пустое поле битвы
-        std::string Botfield[13][12] = {
-                {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
-                {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-                {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-                {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-        };
-
-        //Корабли
-        shipsNum = 10;
-        decksNum = 0;
-        decksMax = 4;
+//Поле для Бота
+std::string botField(std::string Botfield[13][12]) {
+    //Корабли
+    int shipsNum = 10;
+    int decksNum = 0;
+    int decksMax = 4;
 
 
-        //Координаты
-        x_coordinate = 0;
-        y_coordinate = 0;
+    //Координаты
+    int x_coordinate = 0;
+    int y_coordinate = 0;
 
 
-        //Разрешаюищие переменные
-        bool set = 0;
+    //Разрешаюищие переменные
+    bool set = 0;
 
-        while (shipsNum > 0) {
+    while (shipsNum > 0) {
 
-            time_t seconds = time(NULL) % 10;
+        time_t seconds = time(NULL) % 10;
 
-            x_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
-            y_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
+        x_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
+        y_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
 
-            int n = 0;
-            if (Botfield[y_coordinate][x_coordinate] == " |") {
+        int n = 0;
+        if (Botfield[y_coordinate][x_coordinate] == " |") {
 
-                for (int i = 0; i < decksMax; i++) {
-                    if (Botfield[y_coordinate + i][x_coordinate] == " |") {
-                        n++;
-                        if (n == decksMax) {
-                            for (int i = 0; i < decksMax; i++) {
-                                Botfield[y_coordinate + i][x_coordinate] = "O|";
-                                set = 1;
-                            }
+            for (int i = 0; i < decksMax; i++) {
+                if (Botfield[y_coordinate + i][x_coordinate] == " |") {
+                    n++;
+                    if (n == decksMax) {
+                        for (int i = 0; i < decksMax; i++) {
+                            Botfield[y_coordinate + i][x_coordinate] = "O|";
+                            set = 1;
                         }
                     }
-                    else
-                    {
-                        n = 0;
-                        for (int i = 0; i < decksMax; i++) {
-                            if (Botfield[y_coordinate][x_coordinate + i] == " |") {
-                                n++;
-                                if (n == decksMax) {
-                                    for (int i = 0; i < decksMax; i++) {
-                                        Botfield[y_coordinate][x_coordinate + i] = "O|";
-                                        set = 1;
-                                    }
+                }
+                else
+                {
+                    n = 0;
+                    for (int i = 0; i < decksMax; i++) {
+                        if (Botfield[y_coordinate][x_coordinate + i] == " |") {
+                            n++;
+                            if (n == decksMax) {
+                                for (int i = 0; i < decksMax; i++) {
+                                    Botfield[y_coordinate][x_coordinate + i] = "O|";
+                                    set = 1;
                                 }
                             }
-                            else
-                            {
-                                n = 0;
-                                break;
-                            }
                         }
-                    }
-                }
-
-                if (set) {
-                    shipsNum--;
-                    switch (shipsNum)
-                    {
-                    case 9:
-                        decksMax = 3;
-                        break;
-                    case 7:
-                        decksMax = 2;
-                        break;
-                    case 4:
-                        decksMax = 1;
-                        break;
-                    }
-                    set = 0;
-                }
-
-                for (int i = 0; i <= 12; i++) {
-                    for (int j = 0; j <= 11; j++) {
-                        if (Botfield[i][j] == "O|") {
-                            if (Botfield[i + 1][j] == " |") { Botfield[i + 1][j] = "*|"; }
-                            if (Botfield[i][j + 1] == " |") { Botfield[i][j + 1] = "*|"; }
-                            if (Botfield[i - 1][j] == " |") { Botfield[i - 1][j] = "*|"; }
-                            if (Botfield[i][j - 1] == " |") { Botfield[i][j - 1] = "*|"; }
-                            if (Botfield[i + 1][j + 1] == " |") { Botfield[i + 1][j + 1] = "*|"; }
-                            if (Botfield[i - 1][j - 1] == " |") { Botfield[i - 1][j - 1] = "*|"; }
-                            if (Botfield[i + 1][j - 1] == " |") { Botfield[i + 1][j - 1] = "*|"; }
-                            if (Botfield[i - 1][j + 1] == " |") { Botfield[i - 1][j + 1] = "*|"; }
+                        else
+                        {
+                            n = 0;
+                            break;
                         }
                     }
                 }
             }
-            //std::cout << feildPaint(Botfield) << "\n\n";
+
+            if (set) {
+                shipsNum--;
+                switch (shipsNum)
+                {
+                case 9:
+                    decksMax = 3;
+                    break;
+                case 7:
+                    decksMax = 2;
+                    break;
+                case 4:
+                    decksMax = 1;
+                    break;
+                }
+                set = 0;
+            }
+
+            for (int i = 0; i <= 12; i++) {
+                for (int j = 0; j <= 11; j++) {
+                    if (Botfield[i][j] == "O|") {
+                        if (Botfield[i + 1][j] == " |") { Botfield[i + 1][j] = "*|"; }
+                        if (Botfield[i][j + 1] == " |") { Botfield[i][j + 1] = "*|"; }
+                        if (Botfield[i - 1][j] == " |") { Botfield[i - 1][j] = "*|"; }
+                        if (Botfield[i][j - 1] == " |") { Botfield[i][j - 1] = "*|"; }
+                        if (Botfield[i + 1][j + 1] == " |") { Botfield[i + 1][j + 1] = "*|"; }
+                        if (Botfield[i - 1][j - 1] == " |") { Botfield[i - 1][j - 1] = "*|"; }
+                        if (Botfield[i + 1][j - 1] == " |") { Botfield[i + 1][j - 1] = "*|"; }
+                        if (Botfield[i - 1][j + 1] == " |") { Botfield[i - 1][j + 1] = "*|"; }
+                    }
+                }
+            }
         }
-        system("cls");  //чистка консоли
-
-        std::cout << feildPaint(field) << "\n\n";
-
-        std::cout << feildPaint(Botfield) << "\n\n";
     }
+    return Botfield[12][11];
+}
 
-    
-    
 
+int main() {
+
+    setlocale(LC_ALL, "");
+
+    std::string field[13][12] = {
+            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+    };
+
+
+    // Создаем пустое поле битвы
+    std::string Botfield[13][12] = {
+            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+    };
+
+
+    botField(Botfield);
+    userField(field);
+
+    std::cout << feildPaint(field) << "\n\n";
+    std::cout << feildPaint(Botfield) << "\n\n";
 }
