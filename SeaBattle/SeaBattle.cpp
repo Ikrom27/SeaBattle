@@ -243,18 +243,17 @@ std::string userFieldBuilt(std::string field[13][12]) {
 
 
         //Интерфейс
-        std::cout << "#---------------------#" << "\n";
-        std::cout << "| У вас осталось:     |" << "\n";
-        std::cout << "|   4-х палубных: " << x4_ship << "   |" << "\n";
-        std::cout << "|   3-х палубных: " << x3_ship << "   |" << "\n";
-        std::cout << "|   2-х палубных: " << x2_ship << "   |" << "\n";
-        std::cout << "|   1-х палубных: " << x1_ship << "   |" << "\n";
-        std::cout << "#---------------------#" << "\n";
-        std::cout << "| Макс длинна: " << decksMax << "      |" << "\n";
-        std::cout << "| Текущий палубных: " << decksNum << " |" << "\n";
-        std::cout << "#---------------------#" << "\n";
-        std::cout << "| Сообщение: " << display << "\n";
-        display = "-----------";
+        std::cout << "#---------------------#" <<                 "---------------------#"  << "\n";
+        std::cout << "| У вас осталось:     |" <<                 "      Комманды:      |" << "\n";
+        std::cout << "|   4-х палубных: " << x4_ship << "   |" << "---------------------|" << "\n";
+        std::cout << "|   3-х палубных: " << x3_ship << "   |" << " START - начать бой! |" << "\n";
+        std::cout << "|   2-х палубных: " << x2_ship << "   |" << " SET - уст. корабль  |" << "\n";
+        std::cout << "|   1-х палубных: " << x1_ship << "   |" << "                     |" << "\n";
+        std::cout << "#---------------------#---------------------#" << "\n";
+        std::cout << "| Макс длинна: " << decksMax << "      | Сообщение: " << "\n";
+        std::cout << "| Текущий палубных: " << decksNum << " | " << display << "\n";
+        std::cout << "#---------------------#---------------------#" << "\n";
+        display = "##############";
 
         std::cout << feildPaint(field) << "\n\n";
 
@@ -405,72 +404,72 @@ std::string botFieldBuilt(std::string field[13][12]) {
 
 
     //Разрешаюищие переменные
-bool set = 0;
+    bool set = 0;
 
-while (shipsNum > 0) {
+    while (shipsNum > 0) {
 
-    //задаем рандомные координаты
-    x_coordinate = random_coordinate();
-    y_coordinate = random_coordinate();
+        //задаем рандомные координаты
+        x_coordinate = random_coordinate();
+        y_coordinate = random_coordinate();
 
 
-    //Расставляем корабли правильных размеров и формы
-    int n = 0;
-    if (field[y_coordinate][x_coordinate] == " |") {
+        //Расставляем корабли правильных размеров и формы
+        int n = 0;
+        if (field[y_coordinate][x_coordinate] == " |") {
 
-        for (int i = 0; i < decksMax; i++) {
-            if (field[y_coordinate + i][x_coordinate] == " |") {
-                n++;
-                if (n == decksMax) {
-                    for (int i = 0; i < decksMax; i++) {
-                        field[y_coordinate + i][x_coordinate] = "O|";
-                        set = 1;
-                    }
-                }
-            }
-            else
-            {
-                n = 0;
-                for (int i = 0; i < decksMax; i++) {
-                    if (field[y_coordinate][x_coordinate + i] == " |") {
-                        n++;
-                        if (n == decksMax) {
-                            for (int i = 0; i < decksMax; i++) {
-                                field[y_coordinate][x_coordinate + i] = "O|";
-                                set = 1;
-                            }
+            for (int i = 0; i < decksMax; i++) {
+                if (field[y_coordinate + i][x_coordinate] == " |") {
+                    n++;
+                    if (n == decksMax) {
+                        for (int i = 0; i < decksMax; i++) {
+                            field[y_coordinate + i][x_coordinate] = "O|";
+                            set = 1;
                         }
                     }
-                    else
-                    {
-                        n = 0;
-                        break;
+                }
+                else
+                {
+                    n = 0;
+                    for (int i = 0; i < decksMax; i++) {
+                        if (field[y_coordinate][x_coordinate + i] == " |") {
+                            n++;
+                            if (n == decksMax) {
+                                for (int i = 0; i < decksMax; i++) {
+                                    field[y_coordinate][x_coordinate + i] = "O|";
+                                    set = 1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            n = 0;
+                            break;
+                        }
                     }
                 }
             }
-        }
-        //Считаем оставшиеся корабли и находим самую длинную
-        if (set) {
-            shipsNum--;
-            switch (shipsNum)
-            {
-            case 9:
-                decksMax = 3;
-                break;
-            case 7:
-                decksMax = 2;
-                break;
-            case 4:
-                decksMax = 1;
-                break;
+            //Считаем оставшиеся корабли и находим самую длинную
+            if (set) {
+                shipsNum--;
+                switch (shipsNum)
+                {
+                case 9:
+                    decksMax = 3;
+                    break;
+                case 7:
+                    decksMax = 2;
+                    break;
+                case 4:
+                    decksMax = 1;
+                    break;
+                }
+                set = 0;
             }
-            set = 0;
-        }
 
-        shipsBorder(botField, "O|", "*|");
+            shipsBorder(botField, "O|", "*|");
+        }
     }
-}
-return field[12][11];
+    return field[12][11];
 }
 
 
@@ -493,6 +492,8 @@ int main() {
     std::string display;
     //std::string next_attact = "-";
 
+    int userPoints = 0;
+    int botPoints = 0;
     int next_attact = 0;
     int n = 0;
     int y_coordinate = 0;
@@ -559,8 +560,6 @@ int main() {
             }
             std::cout << "\n             ";
 
-            //std::cout << feildPaint(userField) << "\n\n";
-            //std::cout << feildPaint(fogOfWar) << "\n\n";
             std::cout << feildPaint(botField) << "\n\n";
 
 
