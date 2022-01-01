@@ -113,10 +113,82 @@ std::string feildPaint(std::string field[13][12]) {
 }
 
 
+//Проверяет координаты, что определить состояние корабля
+bool checkRight(std::string field[13][12], int y, int x) {
+    if (field[y][x] == "X|") {
+        if (checkRight(field, y, x + 1) == 1) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (field[y][x] != "O|" and field[y][x] != "X|") {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+bool checkLeft(std::string field[13][12], int y, int x) {
+    if (field[y][x] == "X|") {
+        if (checkLeft(field, y, x - 1) == 1) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (field[y][x] != "O|" and field[y][x] != "X|") {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+bool checkDown(std::string field[13][12], int y, int x) {
+    if (field[y][x] == "X|") {
+        if (checkDown(field, y + 1, x) == 1) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (field[y][x] != "O|" and field[y][x] != "X|") {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+bool checkUp(std::string field[13][12], int y, int x) {
+    if (field[y][x] == "X|") {
+        if (checkUp(field, y - 1, x) == 1) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (field[y][x] != "O|" and field[y][x] != "X|") {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 
-
-
+//Строит поле игрока
 std::string userFieldBuilt(std::string field[13][12]) {
 
     //Корабли
@@ -291,6 +363,18 @@ std::string userFieldBuilt(std::string field[13][12]) {
 }
 
 
+//Код для рандомного числа
+int random_coordinate() {
+
+    int random_number;
+    time_t seconds = time(NULL) % 10;
+
+    random_number = abs(1 + (rand() + seconds) % 10) + 2; //Прибавляем секунды к стандартой функции рандома
+
+    return random_number;
+}
+
+
 //Поле для Бота
 std::string botFieldBuilt(std::string field[13][12]) {
 
@@ -310,12 +394,9 @@ std::string botFieldBuilt(std::string field[13][12]) {
 
     while (shipsNum > 0) {
 
-        time_t seconds = time(NULL) % 10;   //для рандомного результата
-
-
         //задаем рандомные координаты
-        x_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
-        y_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
+        x_coordinate = random_coordinate();
+        y_coordinate = random_coordinate();
 
 
         //Расставляем корабли правильных размеров и формы
@@ -353,7 +434,7 @@ std::string botFieldBuilt(std::string field[13][12]) {
                     }
                 }
             }
-
+            //Считаем оставшиеся корабли и находим самую длинную
             if (set) {
                 shipsNum--;
                 switch (shipsNum)
@@ -388,4 +469,54 @@ int main() {
 
     std::cout << feildPaint(userField) << "\n\n";
     std::cout << feildPaint(botField) << "\n\n";
+
+    setlocale(LC_ALL, "");
+
+    std::string userInput;
+    std::string a = "";
+
+    int n = 0;
+    int y_coordinate = 0;
+    int x_coordinate = 0;
+
+    bool ignore_results = 0;
+    bool Queue = true;
+    while(true) {
+        if (Queue) {
+            system("cls");  //чистка консоли
+
+            std::cout << feildPaint(userField) << "\n\n";
+            std::cout << feildPaint(botField) << "\n\n";
+
+
+            std::cin >> userInput;
+            std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
+
+            //Обрабатываем координаты
+            y_coordinate = get_y(userInput);
+            x_coordinate = get_x(userInput);
+
+            if (botField[y_coordinate + 2][x_coordinate + 2] == "O|") {
+                botField[y_coordinate + 2][x_coordinate + 2] = "X|";
+
+            }
+            else if (botField[y_coordinate + 2][x_coordinate + 2] == " |") {
+                botField[y_coordinate + 2][x_coordinate + 2] = "*|";
+            }
+
+            for (int i = 0; i <= 12; i++) {
+                for (int j = 0; j <= 11; j++) {
+                    if (botField[i][j] == "X|") {
+                        if (checkDown(botField, i, j) and checkUp(botField, i, j) and checkLeft(botField, i, j) and checkRight(botField, i, j)) {
+                            botField[i][j] = "F|";
+                        }
+                    }
+                }
+            }
+            shipsBorder(botField, "F|");
+        }
+        else {
+
+        }
+    }
 }
