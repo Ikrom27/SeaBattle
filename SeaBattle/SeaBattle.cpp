@@ -19,7 +19,7 @@ std::string userField[13][12] = {
             {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
 };
-std::string botfield[13][12] = {
+std::string botField[13][12] = {
             {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
             {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
@@ -371,7 +371,7 @@ std::string botFieldBuilt(std::string field[13][12]) {
                 set = 0;
             }
 
-            shipsBorder(botfield, "O|");
+            shipsBorder(botField, "O|");
         }
     }
     return field[12][11];
@@ -383,9 +383,9 @@ int main() {
     setlocale(LC_ALL, "");
 
 
-    botFieldBuilt(botfield);
+    botFieldBuilt(botField);
     userFieldBuilt(userField);
 
     std::cout << feildPaint(userField) << "\n\n";
-    std::cout << feildPaint(botfield) << "\n\n";
+    std::cout << feildPaint(botField) << "\n\n";
 }
