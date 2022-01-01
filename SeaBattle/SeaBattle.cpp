@@ -4,9 +4,98 @@
 #include <stdlib.h>
 #include <ctime>
 
-// Перевод букв в цифры
-int convert(char a) {
-    return int(a - 65);
+std::string userField[13][12] = {
+            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+};
+std::string botfield[13][12] = {
+            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+};
+
+
+//Проверка введеных данных
+bool inputCheck(std::string Input) {
+    bool check = 0;
+    for (int LetterNum = 0; LetterNum <= 1; LetterNum++) {
+        char letter = Input[LetterNum];
+        if (letter >= '0' and letter <= '9') {
+            check = 1;
+        }
+        else if (letter >= 'A' and letter <= 'J') {
+            check = 1;
+        }
+        else {
+            check = 0;
+            break;
+        }
+    }
+    return check;
+}
+
+
+//Получение координат
+int get_y(std::string playerInput) {
+    int y_coordinate = 0;
+    for (int i = 0; i <= 1; i++) {
+        char letter = playerInput[i];
+        if (letter >= '0' and letter <= '9') {
+            y_coordinate = int(letter - '0');
+        }
+    }
+    return y_coordinate;
+}
+int get_x(std::string playerInput) {
+    int x_coordinate = 0;
+    for (int i = 0; i <= 1; i++) {
+        char letter = playerInput[i];
+        if (letter >= 'A' and letter <= 'J') {
+            x_coordinate = int(letter - 'A');
+        }
+    }
+    return x_coordinate;
+}
+
+
+//Обозначение границ корабля
+std::string shipsBorder(std::string field[13][12], std::string trigger) {
+    for (int i = 0; i < 13; i++) {
+        for (int j = 0; j < 12; j++) {
+            if (field[i][j] == trigger) {
+                if (field[i + 1][j] == " |") { field[i + 1][j] = "*|"; }
+                if (field[i][j + 1] == " |") { field[i][j + 1] = "*|"; }
+                if (field[i - 1][j] == " |") { field[i - 1][j] = "*|"; }
+                if (field[i][j - 1] == " |") { field[i][j - 1] = "*|"; }
+                if (field[i + 1][j + 1] == " |") { field[i + 1][j + 1] = "*|"; }
+                if (field[i - 1][j - 1] == " |") { field[i - 1][j - 1] = "*|"; }
+                if (field[i + 1][j - 1] == " |") { field[i + 1][j - 1] = "*|"; }
+                if (field[i - 1][j + 1] == " |") { field[i - 1][j + 1] = "*|"; }
+            }
+        }
+    }
+    return  field[13][12];
 }
 
 
@@ -24,27 +113,11 @@ std::string feildPaint(std::string field[13][12]) {
 }
 
 
-//Проверка введеных данных
-bool inputCheck(std::string Input) {
-    bool check = 0;
-    for (int LetterNum = 0; LetterNum <= 1; LetterNum++) {
-        char letter = Input[LetterNum];
-        if (letter >= '0' and letter <= '9') {
-            check = 1;
-        }
-        else if (letter >= 'A' and letter <= 'J') {
-            check = 1;
-        }
-        else {
-            check = 0;
-        }
-    }
-    return check;
-}
 
 
-//Поле игрока
-std::string userField(std::string field[13][12]) {
+
+
+std::string userFieldBuilt(std::string field[13][12]) {
 
     //Корабли
     int shipsNum = 20;
@@ -59,8 +132,8 @@ std::string userField(std::string field[13][12]) {
     //Координаты
     int x_coordinate = 0;
     int y_coordinate = 0;
-    int x_story[20] = { 0 };
-    int y_story[20] = { 0 };
+    int x_story = 0;
+    int y_story = 0;
 
 
     //Разрешаюищие переменные
@@ -71,7 +144,7 @@ std::string userField(std::string field[13][12]) {
 
 
     //объявление строк
-    std::string playerInput;
+    std::string userInput;
     std::string block = "";
     std::string display = "-----------";
 
@@ -100,16 +173,17 @@ std::string userField(std::string field[13][12]) {
 
 
         // Получение хода игрока и трансформация букв в заглавные.
-        std::cin >> playerInput;
-        std::transform(playerInput.begin(), playerInput.end(), playerInput.begin(), ::toupper);
+        std::cin >> userInput;
+        std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
 
 
-        if (playerInput == "START") {
+        //Начинать бой
+        if (userInput == "START") {
             break;
         }
 
         // Обозначает завершение построек палуб корабля
-        else if (playerInput == "SET") {
+        else if (userInput == "SET") {
 
 
             if (decksNum == 4 and x4_ship > 0) { set_check = 1; }
@@ -120,20 +194,7 @@ std::string userField(std::string field[13][12]) {
 
             if (set_check) {
                 //Обозначаем границы корабля
-                for (int i = 0; i <= 12; i++) {
-                    for (int j = 0; j <= 11; j++) {
-                        if (field[i][j] == "O|") {
-                            if (field[i + 1][j] == " |") { field[i + 1][j] = "*|"; }
-                            if (field[i][j + 1] == " |") { field[i][j + 1] = "*|"; }
-                            if (field[i - 1][j] == " |") { field[i - 1][j] = "*|"; }
-                            if (field[i][j - 1] == " |") { field[i][j - 1] = "*|"; }
-                            if (field[i + 1][j + 1] == " |") { field[i + 1][j + 1] = "*|"; }
-                            if (field[i - 1][j - 1] == " |") { field[i - 1][j - 1] = "*|"; }
-                            if (field[i + 1][j - 1] == " |") { field[i + 1][j - 1] = "*|"; }
-                            if (field[i - 1][j + 1] == " |") { field[i - 1][j + 1] = "*|"; }
-                        }
-                    }
-                }
+                shipsBorder(field, "O|");
 
 
                 //Корректируем колличество оставшихся кораблей
@@ -163,8 +224,8 @@ std::string userField(std::string field[13][12]) {
                 decksNum = 0;
                 check_coordinate = 0;
                 block = "";
-                x_story[19] = { 0 };
-                y_story[19] = { 0 };
+                x_story = 0;
+                y_story = 0;
             }
             else {
                 display = "Адмирал, таких кораблей больше нет!";
@@ -173,31 +234,17 @@ std::string userField(std::string field[13][12]) {
 
 
         //Если ввод правильный, начинаем расстановку корабля
-        else if (inputCheck(playerInput) and decksNum < decksMax and shipsNum >0) {
+        else if (inputCheck(userInput) and decksNum < decksMax and shipsNum >0) {
 
 
             //Обрабатываем координаты
-            for (int i = 0; i <= 1; i++) {
-
-                char letter = playerInput[i];
-
-                if (letter >= '0' and letter <= '9') {
-                    y_coordinate = int(letter - '0');
-                }
-                else if (letter >= 'A' and letter <= 'J') {
-                    x_coordinate = int(letter - 'A');
-                }
-                else {
-                    //invalidInput = 1;
-                    ignore_results = 1;
-                    break;
-                }
-            }
+            y_coordinate = get_y(userInput);
+            x_coordinate = get_x(userInput);
 
             //Проверяем координаты
             if (check_coordinate) {
                 ignore_results = 1;
-                if (y_coordinate == y_story[20 - shipsNum] and block != "Y" and field[y_coordinate + 2][x_coordinate + 2] == " |") {
+                if (y_coordinate == y_story and block != "Y" and field[y_coordinate + 2][x_coordinate + 2] == " |") {
 
                     //Проверяем, есть ли у заданного координата сосед "O|", так же блокирует другую ось, чтобы корабли имели форму 4-х угольника
                     if (field[y_coordinate + 2][x_coordinate + 3] == "O|" or field[y_coordinate + 2][x_coordinate + 1] == "O|") {
@@ -206,7 +253,7 @@ std::string userField(std::string field[13][12]) {
                     }
 
                 }
-                else if ((x_coordinate == x_story[20 - shipsNum] and block != "X") and field[y_coordinate + 2][x_coordinate + 2] == " |") {
+                else if ((x_coordinate == x_story and block != "X") and field[y_coordinate + 2][x_coordinate + 2] == " |") {
 
                     //Проверяем, есть ли у заданного координата сосед "O|", так же блокирует другую ось, чтобы корабли имели форму 4-х угольника
                     if (field[y_coordinate + 3][x_coordinate + 2] == "O|" or field[y_coordinate + 1][x_coordinate + 2] == "O|") {
@@ -232,8 +279,8 @@ std::string userField(std::string field[13][12]) {
             if (ignore_results == 0) {
                 field[y_coordinate + 2][x_coordinate + 2] = "O|";
                 shipsNum--;
-                y_story[20 - shipsNum] += y_coordinate;
-                x_story[20 - shipsNum] += x_coordinate;
+                y_story = y_coordinate;
+                x_story = x_coordinate;
                 check_coordinate = true;
                 decksNum++;
             }
@@ -245,7 +292,8 @@ std::string userField(std::string field[13][12]) {
 
 
 //Поле для Бота
-std::string botField(std::string Botfield[13][12]) {
+std::string botFieldBuilt(std::string field[13][12]) {
+
     //Корабли
     int shipsNum = 10;
     int decksNum = 0;
@@ -262,20 +310,24 @@ std::string botField(std::string Botfield[13][12]) {
 
     while (shipsNum > 0) {
 
-        time_t seconds = time(NULL) % 10;
+        time_t seconds = time(NULL) % 10;   //для рандомного результата
 
+
+        //задаем рандомные координаты
         x_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
         y_coordinate = abs(1 + (rand() + seconds) % 10) + 2;
 
+
+        //Расставляем корабли правильных размеров и формы
         int n = 0;
-        if (Botfield[y_coordinate][x_coordinate] == " |") {
+        if (field[y_coordinate][x_coordinate] == " |") {
 
             for (int i = 0; i < decksMax; i++) {
-                if (Botfield[y_coordinate + i][x_coordinate] == " |") {
+                if (field[y_coordinate + i][x_coordinate] == " |") {
                     n++;
                     if (n == decksMax) {
                         for (int i = 0; i < decksMax; i++) {
-                            Botfield[y_coordinate + i][x_coordinate] = "O|";
+                            field[y_coordinate + i][x_coordinate] = "O|";
                             set = 1;
                         }
                     }
@@ -284,11 +336,11 @@ std::string botField(std::string Botfield[13][12]) {
                 {
                     n = 0;
                     for (int i = 0; i < decksMax; i++) {
-                        if (Botfield[y_coordinate][x_coordinate + i] == " |") {
+                        if (field[y_coordinate][x_coordinate + i] == " |") {
                             n++;
                             if (n == decksMax) {
                                 for (int i = 0; i < decksMax; i++) {
-                                    Botfield[y_coordinate][x_coordinate + i] = "O|";
+                                    field[y_coordinate][x_coordinate + i] = "O|";
                                     set = 1;
                                 }
                             }
@@ -319,23 +371,10 @@ std::string botField(std::string Botfield[13][12]) {
                 set = 0;
             }
 
-            for (int i = 0; i <= 12; i++) {
-                for (int j = 0; j <= 11; j++) {
-                    if (Botfield[i][j] == "O|") {
-                        if (Botfield[i + 1][j] == " |") { Botfield[i + 1][j] = "*|"; }
-                        if (Botfield[i][j + 1] == " |") { Botfield[i][j + 1] = "*|"; }
-                        if (Botfield[i - 1][j] == " |") { Botfield[i - 1][j] = "*|"; }
-                        if (Botfield[i][j - 1] == " |") { Botfield[i][j - 1] = "*|"; }
-                        if (Botfield[i + 1][j + 1] == " |") { Botfield[i + 1][j + 1] = "*|"; }
-                        if (Botfield[i - 1][j - 1] == " |") { Botfield[i - 1][j - 1] = "*|"; }
-                        if (Botfield[i + 1][j - 1] == " |") { Botfield[i + 1][j - 1] = "*|"; }
-                        if (Botfield[i - 1][j + 1] == " |") { Botfield[i - 1][j + 1] = "*|"; }
-                    }
-                }
-            }
+            shipsBorder(botfield, "O|");
         }
     }
-    return Botfield[12][11];
+    return field[12][11];
 }
 
 
@@ -343,44 +382,10 @@ int main() {
 
     setlocale(LC_ALL, "");
 
-    std::string field[13][12] = {
-            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
-            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-    };
 
+    botFieldBuilt(botfield);
+    userFieldBuilt(userField);
 
-    // Создаем пустое поле битвы
-    std::string Botfield[13][12] = {
-            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
-            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
-            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-    };
-
-
-    botField(Botfield);
-    userField(field);
-
-    std::cout << feildPaint(field) << "\n\n";
-    std::cout << feildPaint(Botfield) << "\n\n";
+    std::cout << feildPaint(userField) << "\n\n";
+    std::cout << feildPaint(botfield) << "\n\n";
 }
