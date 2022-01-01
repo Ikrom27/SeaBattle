@@ -7,16 +7,16 @@
 std::string userField[13][12] = {
             {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
-            {" 0", "|", "O|", "*|","O|","*|"," |"," |"," |"," |","*|", "O|"},
-            {" 1", "|", "O|", "*|","O|","*|","*|","*|"," |"," |","*|", "*|"},
-            {" 2", "|", "O|", "*|","*|","*|","O|","*|","*|","*|","*|", "*|"},
-            {" 3", "|", "O|", "*|"," |","*|","O|","*|","*|","O|","O|", "*|"},
-            {" 4", "|", "*|", "*|"," |","*|","*|","*|","*|","*|","*|", "*|"},
-            {" 5", "|", "*|", "*|","*|","*|","*|","O|","*|"," |"," |", " |"},
-            {" 6", "|", "O|", "O|","O|","*|","*|","*|","*|"," |"," |", " |"},
-            {" 7", "|", "*|", "*|","*|","*|","*|","*|","*|","*|","*|", "*|"},
-            {" 8", "|", "*|", "*|","*|","*|","O|","*|","O|","O|","O|", "*|"},
-            {" 9", "|", "*|", "O|","*|","*|","*|","*|","*|","*|","*|", "*|"},
+            {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 3", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 4", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 5", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 6", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 7", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 8", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
+            {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
 };
 std::string botField[13][12] = {
@@ -119,7 +119,7 @@ std::string feildPaint(std::string field[13][12]) {
     std::string finalSTR = "";
 
     for (int i = 0; i <= 12; i++) {
-        finalSTR += "\n                                     ";
+        finalSTR += "\n                                                                                         ";
         for (int j = 0; j <= 11; j++) {
             finalSTR += field[i][j];
         }
@@ -243,21 +243,25 @@ std::string userFieldBuilt(std::string field[13][12]) {
 
 
         //Интерфейс
-        std::cout << "#---------------------#" <<                 "---------------------#"  << "\n";
-        std::cout << "| У вас осталось:     |" <<                 "      Комманды:      |" << "\n";
-        std::cout << "|   4-х палубных: " << x4_ship << "   |" << "---------------------|" << "\n";
-        std::cout << "|   3-х палубных: " << x3_ship << "   |" << " START - начать бой! |" << "\n";
-        std::cout << "|   2-х палубных: " << x2_ship << "   |" << " SET - уст. корабль  |" << "\n";
-        std::cout << "|   1-х палубных: " << x1_ship << "   |" << "                     |" << "\n";
-        std::cout << "#---------------------#---------------------#" << "\n";
-        std::cout << "| Макс длинна: " << decksMax << "      | Сообщение: " << "\n";
-        std::cout << "| Текущий палубных: " << decksNum << " | " << display << "\n";
-        std::cout << "#---------------------#---------------------#" << "\n";
+        std::cout << "\n\n";
+        std::cout << "                              #---------------------#" <<                 "---------------------#"  << "\n";
+        std::cout << "                              | У вас осталось:     |" <<                 "      Комманды:      |" << "\n";
+        std::cout << "                              |   4-х палубных: " << x4_ship << "   |" << "---------------------|" << "\n";
+        std::cout << "                              |   3-х палубных: " << x3_ship << "   |" << " START - начать бой! |" << "\n";
+        std::cout << "                              |   2-х палубных: " << x2_ship << "   |" << " SET - уст. корабль  |" << "\n";
+        std::cout << "                              |   1-х палубных: " << x1_ship << "   |" << "                     |" << "\n";
+        std::cout << "                              #---------------------#---------------------#" << "\n";
+        std::cout << "                              | Макс длинна: " << decksMax << "      | Сообщение: " << "\n";
+        std::cout << "                              | Текущий палубных: " << decksNum << " | " << display << "\n";
+        std::cout << "                              #---------------------#---------------------#" << "\n";
         display = "##############";
 
         std::cout << feildPaint(field) << "\n\n";
 
 
+        std::cout << "\n\n                                                                                              ____________" << "\n";
+        std::cout << "                                                                                          ______________________" << "\n";;
+        std::cout << "---------------------------------------------------------------------------------------------<<";
         // Получение хода игрока и трансформация букв в заглавные.
         std::cin >> userInput;
         std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
@@ -505,9 +509,11 @@ int main() {
     bool turn = true;
     bool command = 1;
     bool flag = 0;
+    bool showBot = 0;
+    bool finish = 0;
 
 
-    while (true) {
+    while (userPoints < 20 and botPoints < 20 and finish == 0) {
 
 
         for (int i = 0; i <= 12; i++) {
@@ -530,55 +536,93 @@ int main() {
         }
         for (int i = 0; i <= 12; i++) {
             for (int j = 0; j <= 11; j++) {
-                if (fogOfWar[i][j] == "X|") {
-                    if (checkDown(fogOfWar, i, j) and checkUp(fogOfWar, i, j) and checkLeft(fogOfWar, i, j) and checkRight(fogOfWar, i, j)) {
-                        fogOfWar[i][j] = "F|";
-                    }
+                if (botField[i][j] == "F|") {
+                    fogOfWar[i][j] = "F|";
                 }
             }
         }
 
-
+        shipsBorder(botField, "F|", "*|");
         shipsBorder(userField, "F|", "*|");
         shipsBorder(fogOfWar, "F|", "*|");
 
         if (turn) {
+
+            if (random_coordinate() % 10 > 3) {
+                display = "---------";
+            }
+
             system("cls");  //чистка консоли
 
-            std::cout << display;
+            //Интерфейс
+            std::cout << "\n";
+            std::cout << "                              #--------------------#" << "---------------------#" << "\n";
+            std::cout << "                              |     Комманды:      |" << "        Очик:        |" << "\n";
+            std::cout << "                              | FINISH - зав. игру |" << "   Игрок:     " << userPoints << "     || " << "\n";
+            std::cout << "                              |                    |" << "   Противник: " << botPoints << "     || " << "\n";
+            std::cout << "                              #--------------------#" << "---------------------#" << "\n";
+            std::cout << "                              | Сообщение:         | " << "\n";
+            std::cout << "                              |  " << display << "\n";
+            std::cout << "                              #--------------------#" << "\n";
 
 
             for (int i = 0; i <= 12; i++) {
-                std::cout << "\n       ";
+                std::cout << "\n                                                                                  ";
                 for (int j = 0; j <= 11; j++) {
                     std::cout << userField[i][j];
                 }
-                std::cout << "       ";
+                std::cout << "            ";
                 for (int j = 0; j <= 11; j++) {
                     std::cout << fogOfWar[i][j];
                 }
             }
-            std::cout << "\n             ";
 
-            std::cout << feildPaint(botField) << "\n\n";
+            //чтобы видеть поле бота
+            if (showBot) {
+                std::cout << feildPaint(botField) << "\n\n";
+            }
+
+            std::cout << "\n\n\n";
+            std::cout << "                                                                                                      _____________________       " << "\n";
+            std::cout << "                                                                                               ___________________________________" << "\n";
+            std::cout << "                                                                                                         ";
+
 
 
             std::cin >> userInput;
             std::transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
 
-            //Обрабатываем координаты
-            y_coordinate = get_y(userInput);
-            x_coordinate = get_x(userInput);
-
-            if (botField[y_coordinate + 2][x_coordinate + 2] == "O|") {
-                botField[y_coordinate + 2][x_coordinate + 2] = "X|";
-                fogOfWar[y_coordinate + 2][x_coordinate + 2] = "X|";
-                turn = true;
+            if (userInput == "SHOW") {
+                showBot = 1;
             }
-            else if (botField[y_coordinate + 2][x_coordinate + 2] == " |") {
-                botField[y_coordinate + 2][x_coordinate + 2] = "*|";
-                fogOfWar[y_coordinate + 2][x_coordinate + 2] = "*|";
-                turn = false;
+            else if (userInput == "HIDE") {
+                showBot = 0;
+            }
+            else if (userInput == "FINISH") {
+                finish = 1;
+                userPoints = 20;
+                botPoints = 20;
+            }
+            else if (inputCheck(userInput)){
+
+                //Обрабатываем координаты
+                y_coordinate = get_y(userInput);
+                x_coordinate = get_x(userInput);
+
+                if (botField[y_coordinate + 2][x_coordinate + 2] == "O|") {
+                    botField[y_coordinate + 2][x_coordinate + 2] = "X|";
+                    fogOfWar[y_coordinate + 2][x_coordinate + 2] = "X|";
+                    turn = true;
+                    userPoints++;
+                    display = "Отличное попадание!";
+                }
+                else if (botField[y_coordinate + 2][x_coordinate + 2] == " |") {
+                    botField[y_coordinate + 2][x_coordinate + 2] = "*|";
+                    fogOfWar[y_coordinate + 2][x_coordinate + 2] = "*|";
+                    turn = false;
+                    display = "Я чую, они где-то здесь!";
+                }
+
             }
         }
         else {
@@ -588,11 +632,29 @@ int main() {
             if (userField[y_coordinate][x_coordinate] == "O|") {
                 userField[y_coordinate][x_coordinate] = "X|";
                 turn = false;
+                botPoints++;
+                display = "---------";
             }
             else if (userField[y_coordinate][x_coordinate] == " |") {
                 userField[y_coordinate][x_coordinate] = "*|";
                 turn = true;
+                display = "---------";
             }
         }
     }
+    system("cls");  //чистка консоли
+    std::string end = "";
+    if (userPoints > botPoints) {
+        end = "  Несмотря на военное превосходство врага, мы все же добились победы! Мои поздравления, Адмирал!";
+    }
+    else if (userPoints < botPoints) {
+        end = "  Это тяжелое поражение для всех нас, память о богибших не умерт! Надеюсь, это ваш не последний бой, Адмирал!";
+    }
+    else if (userPoints == botPoints or finish == 1) {
+        end = "  Жертвуя большим количеством людей и кораблей, мы смогли добиться перемирия! Мир без войны, ценне любой победы, Адмирал!";
+    }
+
+    std::cout << "\n\n\n\n\n\n\n\n\n\n";
+    std::cout << end;
+    std::cout << "\n\n\n\n\n\n\n\n\n\n";
 }
