@@ -7,6 +7,21 @@
 std::string userField[13][12] = {
             {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+            {" 0", "|", "O|", "*|","O|","*|"," |"," |"," |"," |","*|", "O|"},
+            {" 1", "|", "O|", "*|","O|","*|","*|","*|"," |"," |","*|", "*|"},
+            {" 2", "|", "O|", "*|","*|","*|","O|","*|","*|","*|","*|", "*|"},
+            {" 3", "|", "O|", "*|"," |","*|","O|","*|","*|","O|","O|", "*|"},
+            {" 4", "|", "*|", "*|"," |","*|","*|","*|","*|","*|","*|", "*|"},
+            {" 5", "|", "*|", "*|","*|","*|","*|","O|","*|"," |"," |", " |"},
+            {" 6", "|", "O|", "O|","O|","*|","*|","*|","*|"," |"," |", " |"},
+            {" 7", "|", "*|", "*|","*|","*|","*|","*|","*|","*|","*|", "*|"},
+            {" 8", "|", "*|", "*|","*|","*|","O|","*|","O|","O|","O|", "*|"},
+            {" 9", "|", "*|", "O|","*|","*|","*|","*|","*|","*|","*|", "*|"},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
+};
+std::string botField[13][12] = {
+            {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
+            {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
             {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
             {" 1", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
             {" 2", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
@@ -19,7 +34,7 @@ std::string userField[13][12] = {
             {" 9", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
 };
-std::string botField[13][12] = {
+std::string fogOfWar[13][12] = {
             {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
             {" 0", "|", " |", " |"," |"," |"," |"," |"," |"," |"," |", " |"},
@@ -80,18 +95,18 @@ int get_x(std::string playerInput) {
 
 
 //Обозначение границ корабля
-std::string shipsBorder(std::string field[13][12], std::string trigger) {
-    for (int i = 0; i < 13; i++) {
-        for (int j = 0; j < 12; j++) {
+std::string shipsBorder(std::string field[13][12], std::string trigger, std::string label) {
+    for (int i = 1; i < 13; i++) {
+        for (int j = 1; j < 12; j++) {
             if (field[i][j] == trigger) {
-                if (field[i + 1][j] == " |") { field[i + 1][j] = "*|"; }
-                if (field[i][j + 1] == " |") { field[i][j + 1] = "*|"; }
-                if (field[i - 1][j] == " |") { field[i - 1][j] = "*|"; }
-                if (field[i][j - 1] == " |") { field[i][j - 1] = "*|"; }
-                if (field[i + 1][j + 1] == " |") { field[i + 1][j + 1] = "*|"; }
-                if (field[i - 1][j - 1] == " |") { field[i - 1][j - 1] = "*|"; }
-                if (field[i + 1][j - 1] == " |") { field[i + 1][j - 1] = "*|"; }
-                if (field[i - 1][j + 1] == " |") { field[i - 1][j + 1] = "*|"; }
+                if (field[i + 1][j] == " |" or field[i + 1][j] == "*|") { field[i + 1][j] = label; }
+                if (field[i][j + 1] == " |" or field[i][j + 1] == "*|") { field[i][j + 1] = label; }
+                if (field[i - 1][j] == " |" or field[i - 1][j] == "*|") { field[i - 1][j] = label; }
+                if (field[i][j - 1] == " |" or field[i][j - 1] == "*|") { field[i][j - 1] = label; }
+                if (field[i + 1][j + 1] == " |" or field[i + 1][j + 1] == "*|") { field[i + 1][j + 1] = label; }
+                if (field[i - 1][j - 1] == " |" or field[i - 1][j - 1] == "*|") { field[i - 1][j - 1] = label; }
+                if (field[i + 1][j - 1] == " |" or field[i + 1][j - 1] == "*|") { field[i + 1][j - 1] = label; }
+                if (field[i - 1][j + 1] == " |" or field[i - 1][j + 1] == "*|") { field[i - 1][j + 1] = label; }
             }
         }
     }
@@ -266,7 +281,7 @@ std::string userFieldBuilt(std::string field[13][12]) {
 
             if (set_check) {
                 //Обозначаем границы корабля
-                shipsBorder(field, "O|");
+                shipsBorder(field, "O|", "*|");
 
 
                 //Корректируем колличество оставшихся кораблей
@@ -390,72 +405,72 @@ std::string botFieldBuilt(std::string field[13][12]) {
 
 
     //Разрешаюищие переменные
-    bool set = 0;
+bool set = 0;
 
-    while (shipsNum > 0) {
+while (shipsNum > 0) {
 
-        //задаем рандомные координаты
-        x_coordinate = random_coordinate();
-        y_coordinate = random_coordinate();
+    //задаем рандомные координаты
+    x_coordinate = random_coordinate();
+    y_coordinate = random_coordinate();
 
 
-        //Расставляем корабли правильных размеров и формы
-        int n = 0;
-        if (field[y_coordinate][x_coordinate] == " |") {
+    //Расставляем корабли правильных размеров и формы
+    int n = 0;
+    if (field[y_coordinate][x_coordinate] == " |") {
 
-            for (int i = 0; i < decksMax; i++) {
-                if (field[y_coordinate + i][x_coordinate] == " |") {
-                    n++;
-                    if (n == decksMax) {
-                        for (int i = 0; i < decksMax; i++) {
-                            field[y_coordinate + i][x_coordinate] = "O|";
-                            set = 1;
-                        }
+        for (int i = 0; i < decksMax; i++) {
+            if (field[y_coordinate + i][x_coordinate] == " |") {
+                n++;
+                if (n == decksMax) {
+                    for (int i = 0; i < decksMax; i++) {
+                        field[y_coordinate + i][x_coordinate] = "O|";
+                        set = 1;
                     }
                 }
-                else
-                {
-                    n = 0;
-                    for (int i = 0; i < decksMax; i++) {
-                        if (field[y_coordinate][x_coordinate + i] == " |") {
-                            n++;
-                            if (n == decksMax) {
-                                for (int i = 0; i < decksMax; i++) {
-                                    field[y_coordinate][x_coordinate + i] = "O|";
-                                    set = 1;
-                                }
+            }
+            else
+            {
+                n = 0;
+                for (int i = 0; i < decksMax; i++) {
+                    if (field[y_coordinate][x_coordinate + i] == " |") {
+                        n++;
+                        if (n == decksMax) {
+                            for (int i = 0; i < decksMax; i++) {
+                                field[y_coordinate][x_coordinate + i] = "O|";
+                                set = 1;
                             }
                         }
-                        else
-                        {
-                            n = 0;
-                            break;
-                        }
+                    }
+                    else
+                    {
+                        n = 0;
+                        break;
                     }
                 }
             }
-            //Считаем оставшиеся корабли и находим самую длинную
-            if (set) {
-                shipsNum--;
-                switch (shipsNum)
-                {
-                case 9:
-                    decksMax = 3;
-                    break;
-                case 7:
-                    decksMax = 2;
-                    break;
-                case 4:
-                    decksMax = 1;
-                    break;
-                }
-                set = 0;
-            }
-
-            shipsBorder(botField, "O|");
         }
+        //Считаем оставшиеся корабли и находим самую длинную
+        if (set) {
+            shipsNum--;
+            switch (shipsNum)
+            {
+            case 9:
+                decksMax = 3;
+                break;
+            case 7:
+                decksMax = 2;
+                break;
+            case 4:
+                decksMax = 1;
+                break;
+            }
+            set = 0;
+        }
+
+        shipsBorder(botField, "O|", "*|");
     }
-    return field[12][11];
+}
+return field[12][11];
 }
 
 
@@ -467,25 +482,85 @@ int main() {
     botFieldBuilt(botField);
     userFieldBuilt(userField);
 
-    std::cout << feildPaint(userField) << "\n\n";
-    std::cout << feildPaint(botField) << "\n\n";
+
+    //Стираем границы корабля
+    shipsBorder(userField, "O|", " |");
+    shipsBorder(botField, "O|", " |");
 
     setlocale(LC_ALL, "");
 
     std::string userInput;
-    std::string a = "";
+    std::string display;
+    //std::string next_attact = "-";
 
+    int next_attact = 0;
     int n = 0;
     int y_coordinate = 0;
     int x_coordinate = 0;
+    int y_story = 0;
+    int x_story = 0;
 
     bool ignore_results = 0;
-    bool Queue = true;
-    while(true) {
-        if (Queue) {
+    bool turn = true;
+    bool command = 1;
+    bool flag = 0;
+
+
+    while (true) {
+
+
+        for (int i = 0; i <= 12; i++) {
+            for (int j = 0; j <= 11; j++) {
+                if (botField[i][j] == "X|") {
+                    if (checkDown(botField, i, j) and checkUp(botField, i, j) and checkLeft(botField, i, j) and checkRight(botField, i, j)) {
+                        botField[i][j] = "F|";
+                    }
+                }
+            }
+        }
+        for (int i = 0; i <= 12; i++) {
+            for (int j = 0; j <= 11; j++) {
+                if (userField[i][j] == "X|") {
+                    if (checkDown(userField, i, j) and checkUp(userField, i, j) and checkLeft(userField, i, j) and checkRight(userField, i, j)) {
+                        userField[i][j] = "F|";
+                    }
+                }
+            }
+        }
+        for (int i = 0; i <= 12; i++) {
+            for (int j = 0; j <= 11; j++) {
+                if (fogOfWar[i][j] == "X|") {
+                    if (checkDown(fogOfWar, i, j) and checkUp(fogOfWar, i, j) and checkLeft(fogOfWar, i, j) and checkRight(fogOfWar, i, j)) {
+                        fogOfWar[i][j] = "F|";
+                    }
+                }
+            }
+        }
+
+
+        shipsBorder(userField, "F|", "*|");
+        shipsBorder(fogOfWar, "F|", "*|");
+
+        if (turn) {
             system("cls");  //чистка консоли
 
-            std::cout << feildPaint(userField) << "\n\n";
+            std::cout << display;
+
+
+            for (int i = 0; i <= 12; i++) {
+                std::cout << "\n       ";
+                for (int j = 0; j <= 11; j++) {
+                    std::cout << userField[i][j];
+                }
+                std::cout << "       ";
+                for (int j = 0; j <= 11; j++) {
+                    std::cout << fogOfWar[i][j];
+                }
+            }
+            std::cout << "\n             ";
+
+            //std::cout << feildPaint(userField) << "\n\n";
+            //std::cout << feildPaint(fogOfWar) << "\n\n";
             std::cout << feildPaint(botField) << "\n\n";
 
 
@@ -498,25 +573,27 @@ int main() {
 
             if (botField[y_coordinate + 2][x_coordinate + 2] == "O|") {
                 botField[y_coordinate + 2][x_coordinate + 2] = "X|";
-
+                fogOfWar[y_coordinate + 2][x_coordinate + 2] = "X|";
+                turn = true;
             }
             else if (botField[y_coordinate + 2][x_coordinate + 2] == " |") {
                 botField[y_coordinate + 2][x_coordinate + 2] = "*|";
+                fogOfWar[y_coordinate + 2][x_coordinate + 2] = "*|";
+                turn = false;
             }
-
-            for (int i = 0; i <= 12; i++) {
-                for (int j = 0; j <= 11; j++) {
-                    if (botField[i][j] == "X|") {
-                        if (checkDown(botField, i, j) and checkUp(botField, i, j) and checkLeft(botField, i, j) and checkRight(botField, i, j)) {
-                            botField[i][j] = "F|";
-                        }
-                    }
-                }
-            }
-            shipsBorder(botField, "F|");
         }
         else {
+            y_coordinate = random_coordinate();
+            x_coordinate = random_coordinate();
 
+            if (userField[y_coordinate][x_coordinate] == "O|") {
+                userField[y_coordinate][x_coordinate] = "X|";
+                turn = false;
+            }
+            else if (userField[y_coordinate][x_coordinate] == " |") {
+                userField[y_coordinate][x_coordinate] = "*|";
+                turn = true;
+            }
         }
     }
 }
