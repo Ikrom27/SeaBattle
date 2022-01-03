@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <ctime>
-
+//222
 std::string userField[13][12] = {
             {"  ", " ", "A ", "B ","C ","D ","E ","F ","G ","H ","I ", "J "},
             {"  ", "#", "--", "--","--","--","--","--","--","--","--", "-#"},
